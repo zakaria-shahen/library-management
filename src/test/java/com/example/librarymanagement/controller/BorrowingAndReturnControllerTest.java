@@ -26,9 +26,9 @@ import java.util.stream.LongStream;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
 @SpringBootTest
@@ -126,5 +126,35 @@ class BorrowingAndReturnControllerTest {
 
     }
 
+
+    @Nested
+    public class Returns {
+
+        @Test
+        void returnBorrowingAndBookAndBorrowingExists() throws Exception {
+            MvcResult mvcResult = mockMvc.perform(put("/return/{bookId}/user/{userId}", 1, 1))
+                    .andExpect(status().isNoContent())
+                    .andDo(print())
+                    .andReturn();
+        }
+
+        @Test
+        void whenReturnBorrowingAndBookNotExistsThenNotFound() throws Exception {
+            MvcResult mvcResult = mockMvc.perform(put("/return/{bookId}/user/{userId}", 1000, 1))
+                    .andExpect(status().isNotFound())
+                    .andDo(print())
+                    .andReturn();
+        }
+
+
+        @Test
+        void whenReturnBorrowingAndBookExistsAndBorrowingNotExistsThenNotFound() throws Exception {
+            MvcResult mvcResult = mockMvc.perform(put("/return/{bookId}/user/{userId}", 2, 1))
+                    .andExpect(status().isNotFound())
+                    .andDo(print())
+                    .andReturn();
+
+        }
+    }
 
 }

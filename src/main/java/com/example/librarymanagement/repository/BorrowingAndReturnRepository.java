@@ -37,4 +37,17 @@ public class BorrowingAndReturnRepository {
                 .query(Integer.class)
                 .single();
     }
+
+    /**
+     *
+     * @param bookId book id
+     * @param userId user id
+     * @return number of affected rows
+     */
+    public int returns(long bookId, long userId) {
+        return jdbcClient.sql("update borrowing set is_returned = true where book_id = ? and user_id = ? and is_deleted = false")
+                .param(bookId)
+                .param(userId)
+                .update();
+    }
 }

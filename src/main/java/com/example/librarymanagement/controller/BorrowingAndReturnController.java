@@ -24,8 +24,9 @@ public class BorrowingAndReturnController {
     }
 
     @PutMapping("/return/{bookId}/user/{userId}")
-    public void returns(@PathVariable long bookId, @PathVariable long userId) {
-
+    public ResponseEntity<Void> returns(@PathVariable long bookId, @PathVariable long userId) {
+        borrowingAndReturnService.returns(bookId, userId);
+        return ResponseEntity.noContent().build();
     }
 
 }

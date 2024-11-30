@@ -41,4 +41,12 @@ public class BorrowingAndReturnService {
 
         return BorrowingMapper.INSTANCE.toBorrowingDto(borrowingAndReturnRepository.create(model));
     }
+
+    public void returns(long bookId, long userId) {
+        int isDeleted = borrowingAndReturnRepository.returns(bookId, userId);
+
+        if (isDeleted == 0) {
+            throw new NotFoundResourceException();
+        }
+    }
 }
