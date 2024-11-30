@@ -15,9 +15,9 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PutMapping;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -83,6 +83,38 @@ class UserControllerTest {
                 .andReturn();
 
         verifyUserExists(mvcResult.getResponse().getHeader(HttpHeaders.LOCATION), "test");
+    }
+
+    @PutMapping
+    void updateUserIfExits() throws Exception {
+        var userDto = new UserDto(1L, "test", "test", "test", "01111", "ADMIN");
+        userDto.setName("update test");
+        MvcResult mvcResult = mockMvc.perform(put("/patrons/{id}", userDto.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(userDto))
+                )
+                .andExpect(status().isNoContent())
+                .andExpect(header().exists(HttpHeaders.CONTENT_LOCATION))
+                .andDo(print())
+                .andReturn();
+
+        verifyUserExists(mvcResult.getResponse().getHeader(HttpHeaders.CONTENT_LOCATION), userDto.getUsername());
+    }
+
+    @PutMapping
+    void updateUserNotExitsThenCreateNewOne() throws Exception {
+        var userDto = new UserDto(1000L, "test", "test", "test", "01111", "ADMIN");
+        userDto.setName("update test 2");
+        MvcResult mvcResult = mockMvc.perform(put("/patrons/{id}", userDto.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(userDto))
+                )
+                .andExpect(status().isCreated())
+                .andExpect(header().exists(HttpHeaders.CONTENT_LOCATION))
+                .andDo(print())
+                .andReturn();
+
+        verifyUserExists(mvcResult.getResponse().getHeader(HttpHeaders.CONTENT_LOCATION), userDto.getUsername());
     }
 
     private void verifyUserExists(String url, String username) throws Exception {

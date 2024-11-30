@@ -84,7 +84,7 @@ class BookControllerTest {
         var book = new BookDto(1L, "Spring in action", "Craig Walls", Short.parseShort("2022"), "9781638356486", 15L);
         book.setTitle("Spring in action 6th edition");
 
-        MvcResult mvcResult = mockMvc.perform(put("/books")
+        MvcResult mvcResult = mockMvc.perform(put("/books/{id}", book.getId())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(book))
                 ).andExpect(status().isNoContent())
@@ -99,7 +99,7 @@ class BookControllerTest {
     void whenUpdateBookIsNotExistsThenCreateOne() throws Exception {
         var book = new BookDto(1000L, "dfdf", "dfd", Short.parseShort("2022"), "5515558356486", 10L);
 
-        MvcResult mvcResult = mockMvc.perform(put("/books")
+        MvcResult mvcResult = mockMvc.perform(put("/books/{id}", book.getId())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(book))
                 ).andExpect(status().isCreated())

@@ -39,8 +39,9 @@ public class BookController {
         return ResponseEntity.created(uri).build();
     }
 
-    @PutMapping
-    public ResponseEntity<Void> updateBook(@RequestBody BookDto bookDto) {
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> updateBook(@RequestBody BookDto bookDto, @PathVariable long id) {
+        bookDto.setId(id);
         var uri = ServletUriComponentsBuilder.fromCurrentRequestUri();
         Optional<BookDto> book = bookService.update(bookDto);
 

@@ -1,5 +1,6 @@
 package com.example.librarymanagement.repository;
 
+import com.example.librarymanagement.dto.UserDto;
 import com.example.librarymanagement.model.UserModel;
 import lombok.AllArgsConstructor;
 import org.jspecify.annotations.NonNull;
@@ -36,5 +37,18 @@ public class UserRepository {
                 .update(keyHolder);
         model.setId(keyHolder.getKey().longValue());
         return model;
+    }
+
+
+    /**
+     *  update entire user model if user id exists.
+     * @param userModel model
+     * @return number of affected rows
+     */
+    public int update(@NonNull UserModel userModel) {
+        return jdbcClient
+                .sql("update user set name = :name, username = :username, password = :password, phone_number = :phoneNumber, role = :role where id = :id")
+                .paramSource(userModel)
+                .update();
     }
 }

@@ -9,6 +9,7 @@ import org.jspecify.annotations.NonNull;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -29,5 +30,16 @@ public class UserService {
         var model = UserMapper.INSTANCE.toUserModel(userDto);
 
         return UserMapper.INSTANCE.toUserDto(userRepository.create(model));
+    }
+
+    public @NonNull Optional<UserDto> update(@NonNull UserDto userDto) {
+        var model = UserMapper.INSTANCE.toUserModel(userDto);
+
+        int updated = userRepository.update(model);
+        if (updated == 1) {
+            return Optional.empty();
+        }
+
+        return Optional.of(create(userDto));
     }
 }
