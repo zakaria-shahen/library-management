@@ -37,4 +37,11 @@ public class BookRepository {
         model.setId(keyHolder.getKey().longValue());
         return model;
     }
+
+    public int update(BookModel model) {
+        return jdbcClient
+                .sql("update book set title = :title, author = :author, publication = :publication, isbn = :isbn, copies = :copies where id = :id")
+                .paramSource(model)
+                .update();
+    }
 }

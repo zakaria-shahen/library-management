@@ -19,8 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -79,6 +78,38 @@ class BookControllerTest {
 
         verifyBookExists(mvcResult.getResponse().getHeader(HttpHeaders.LOCATION), book.getTitle());
     }
+
+    @Test
+    void updateBookIfExists() throws Exception {
+        var book = new BookDto(1L, "Spring in action", "Craig Walls", Short.parseShort("2022"), "9781638356486", 15L);
+        book.setTitle("Spring in action 6th edition");
+
+        MvcResult mvcResult = mockMvc.perform(put("/books")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(book))
+                ).andExpect(status().isNoContent())
+                .andExpect(header().exists(HttpHeaders.CONTENT_LOCATION))
+                .andDo(print())
+                .andReturn();
+
+        verifyBookExists(mvcResult.getResponse().getHeader(HttpHeaders.CONTENT_LOCATION), book.getTitle());
+    }
+
+    @Test
+    void whenUpdateBookIsNotExistsThenCreateOne() throws Exception {
+        var book = new BookDto(1000L, "dfdf", "dfd", Short.parseShort("2022"), "5515558356486", 10L);
+
+        MvcResult mvcResult = mockMvc.perform(put("/books")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(book))
+                ).andExpect(status().isCreated())
+                .andExpect(header().exists(HttpHeaders.CONTENT_LOCATION))
+                .andDo(print())
+                .andReturn();
+
+        verifyBookExists(mvcResult.getResponse().getHeader(HttpHeaders.CONTENT_LOCATION), book.getTitle());
+    }
+
 
     private void verifyBookExists(String url, String title) throws Exception {
         MvcResult mvcResult = mockMvc.perform(get(url))
