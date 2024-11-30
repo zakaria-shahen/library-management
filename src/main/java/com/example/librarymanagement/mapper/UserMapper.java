@@ -18,6 +18,4 @@ public interface UserMapper {
 
     List<UserDto> toUserDto(List<UserModel> userList);
 
-    List<UserModel> toUserModel(List<UserDto> userDtoList);
-
 }

@@ -10,16 +10,11 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -89,7 +84,7 @@ class UserControllerTest {
         verifyUserExists(mvcResult.getResponse().getHeader(HttpHeaders.LOCATION), "test");
     }
 
-    @PutMapping
+    @Test
     void updateUserIfExits() throws Exception {
         var userDto = new UserDto(1L, "test", "test", "test", "01111", "ADMIN");
         userDto.setName("update test");
@@ -105,7 +100,7 @@ class UserControllerTest {
         verifyUserExists(mvcResult.getResponse().getHeader(HttpHeaders.CONTENT_LOCATION), userDto.getUsername());
     }
 
-    @PutMapping
+    @Test
     void updateUserNotExitsThenCreateNewOne() throws Exception {
         var userDto = new UserDto(1000L, "test", "test", "test", "01111", "ADMIN");
         userDto.setName("update test 2");

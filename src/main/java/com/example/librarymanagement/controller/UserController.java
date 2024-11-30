@@ -12,6 +12,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.util.List;
 import java.util.Optional;
 
+import static com.example.librarymanagement.controller.ControllerUtils.URIRequestAndReplaceLastPath;
+
 @AllArgsConstructor
 @RestController
 @RequestMapping("/patrons")
@@ -44,11 +46,11 @@ public class UserController {
         Optional<UserDto> optionalUserDto = userService.update(userDto);
         return optionalUserDto.<ResponseEntity<Void>>map(it -> ResponseEntity
                 .status(HttpStatus.CREATED)
-                .header(HttpHeaders.CONTENT_LOCATION, uri.path("/" + it.getId()).build().toUri().toString())
+                .header(HttpHeaders.CONTENT_LOCATION, URIRequestAndReplaceLastPath("/" + it.getId()))
                 .build()
         ).orElseGet(() -> ResponseEntity
                 .status(HttpStatus.NO_CONTENT)
-                .header(HttpHeaders.CONTENT_LOCATION, uri.path("/" + userDto.getId()).build().toUri().toString())
+                .header(HttpHeaders.CONTENT_LOCATION, URIRequestAndReplaceLastPath("/" + userDto.getId()))
                 .build()
         );
     }

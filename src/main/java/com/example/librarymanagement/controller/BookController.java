@@ -12,6 +12,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.util.List;
 import java.util.Optional;
 
+import static com.example.librarymanagement.controller.ControllerUtils.URIRequestAndReplaceLastPath;
+
 @RestController
 @RequestMapping("/books")
 @AllArgsConstructor
@@ -47,11 +49,11 @@ public class BookController {
 
         return book.<ResponseEntity<Void>>map(dto ->
                 ResponseEntity.status(HttpStatus.CREATED)
-                        .header(HttpHeaders.CONTENT_LOCATION, uri.path("/" + dto.getId()).build().toUri().toString())
+                        .header(HttpHeaders.CONTENT_LOCATION, URIRequestAndReplaceLastPath("/" + dto.getId()))
                 .build()
         ).orElseGet(() ->
                 ResponseEntity.noContent()
-                .header(HttpHeaders.CONTENT_LOCATION, uri.path("/" + bookDto.getId()).build().toUri().toString())
+                .header(HttpHeaders.CONTENT_LOCATION, URIRequestAndReplaceLastPath("/" + bookDto.getId()))
                 .build()
         );
     }
