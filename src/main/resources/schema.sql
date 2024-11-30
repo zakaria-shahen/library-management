@@ -27,7 +27,7 @@ create table if not exists borrowing(
     user_id int not null,
     borrowing_date date not null,
     return_date date not null,
-    is_returns boolean not null default false,
+    is_returned boolean not null default false,
     is_deleted boolean not null default false,
     foreign key (book_id) references book(id),
     foreign key (user_id) references user(id),
@@ -35,15 +35,10 @@ create table if not exists borrowing(
 );
 
 insert into book(id, title, author, publication, isbn, copies) values(1, 'dsd', 'sd', 2004, 'sdsds', 5);
+insert into book(id, title, author, publication, isbn, copies) values(2, 'sssdsd', 'sd', 2004, 'dddsdsds', 5);
 insert into user(id, name, username, password, phone_number, role) values(1,'patron', 'admin', 'admin', '0111111', 'ADMIN');
 insert into user(id, name, username, password, phone_number, role) values(2,'patron', 'patron', 'patron', '0111111', 'PATRON');
 insert into borrowing(book_id, user_id, borrowing_date, return_date) values(1, 1,  '2024-12-1', '2024-01-30');
-
-
-# select copies from book;
-# select count(*) as reserved from borrowing where is_returns = false;
-# if copies > reserved: go
-# else throw
 
 
 
