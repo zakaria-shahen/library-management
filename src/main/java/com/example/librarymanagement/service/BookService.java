@@ -1,6 +1,6 @@
 package com.example.librarymanagement.service;
 
-import com.example.librarymanagement.controller.mapper.BookMapper;
+import com.example.librarymanagement.mapper.BookMapper;
 import com.example.librarymanagement.dto.BookDto;
 import com.example.librarymanagement.exception.NotFoundResourceException;
 import com.example.librarymanagement.repository.BookRepository;
@@ -43,5 +43,9 @@ public class BookService {
         }
 
         return Optional.of(create(bookDto));
+    }
+
+    public void deleteById(long id) {
+        bookRepository.deleteById(id);
     }
 }

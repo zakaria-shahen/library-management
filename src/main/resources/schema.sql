@@ -4,7 +4,8 @@ create table if not exists book(
     author varchar(300) not null,
     publication year,
     isbn varchar(17) unique,
-    copies int not null
+    copies int not null,
+    is_deleted boolean not null default false
 );
 
 

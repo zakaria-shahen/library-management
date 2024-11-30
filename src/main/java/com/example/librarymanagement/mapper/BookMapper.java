@@ -1,4 +1,4 @@
-package com.example.librarymanagement.controller.mapper;
+package com.example.librarymanagement.mapper;
 
 import com.example.librarymanagement.dto.BookDto;
 import com.example.librarymanagement.model.BookModel;

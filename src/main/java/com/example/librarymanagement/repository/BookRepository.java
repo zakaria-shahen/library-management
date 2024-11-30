@@ -17,13 +17,13 @@ public class BookRepository {
     private final JdbcClient jdbcClient;
 
     public @NonNull List<BookModel> findAll() {
-        return jdbcClient.sql("select id, title, author, publication, isbn, copies from book")
+        return jdbcClient.sql("select id, title, author, publication, isbn, copies from book where is_deleted = false")
                 .query(BookModel.class)
                 .list();
     }
 
     public @NonNull Optional<BookModel> findById(long id) {
-        return jdbcClient.sql("select id, title, author, publication, isbn, copies from book where id = ?")
+        return jdbcClient.sql("select id, title, author, publication, isbn, copies from book where id = ? and is_deleted = false")
                 .param(id)
                 .query(BookModel.class)
                 .optional();
@@ -38,10 +38,22 @@ public class BookRepository {
         return model;
     }
 
+    /**
+     *
+     * @param model: BookModel
+     * @return number of affected records
+     */
     public int update(BookModel model) {
         return jdbcClient
-                .sql("update book set title = :title, author = :author, publication = :publication, isbn = :isbn, copies = :copies where id = :id")
+                .sql("update book set title = :title, author = :author, publication = :publication, isbn = :isbn, copies = :copies where id = :id and is_deleted = false")
                 .paramSource(model)
+                .update();
+    }
+
+
+    public void deleteById(long id) {
+        jdbcClient.sql("update book set is_deleted = true where id = ?")
+                .param(id)
                 .update();
     }
 }

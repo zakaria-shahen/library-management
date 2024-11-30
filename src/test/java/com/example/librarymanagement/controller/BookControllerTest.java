@@ -110,6 +110,18 @@ class BookControllerTest {
         verifyBookExists(mvcResult.getResponse().getHeader(HttpHeaders.CONTENT_LOCATION), book.getTitle());
     }
 
+    @Test
+    void deleteBook() throws Exception {
+        long id = 1;
+        MvcResult mvcResult = mockMvc.perform(delete("/books/{id}", id))
+                .andExpect(status().isNoContent())
+                .andDo(print())
+                .andReturn();
+
+        var deleteResult = mockMvc.perform(get("/books/{id}", id))
+                .andExpect(status().isNotFound())
+                .andReturn();
+    }
 
     private void verifyBookExists(String url, String title) throws Exception {
         MvcResult mvcResult = mockMvc.perform(get(url))
