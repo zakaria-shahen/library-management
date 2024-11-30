@@ -20,7 +20,7 @@ public class BookService {
         return BookMapper.INSTANCE.toBookDto(bookRepository.findAll());
     }
 
-    public BookDto findById(long id) {
+    public @NonNull BookDto findById(long id) {
         return BookMapper.INSTANCE.toBookDto(
                 bookRepository.findById(id)
                         .orElseThrow(NotFoundResourceException::new)
@@ -28,4 +28,9 @@ public class BookService {
     }
 
 
+    public @NonNull BookDto create(@NonNull BookDto bookDto) {
+        var model = BookMapper.INSTANCE.toBookModel(bookDto);
+        bookDto.setId(bookRepository.create(model).getId());
+        return bookDto;
+    }
 }

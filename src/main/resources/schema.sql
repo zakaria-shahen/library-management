@@ -3,7 +3,7 @@ create table if not exists book(
     title varchar(300) not null,
     author varchar(300) not null,
     publication year,
-    ISBN varchar(17) unique,
+    isbn varchar(17) unique,
     copies int not null
 );
 
@@ -30,7 +30,7 @@ create table if not exists borrowing(
     unique(book_id, user_id, borrowing_date, return_date)
 );
 
-insert into book(id, title, author, publication, ISBN, copies) values(1, 'dsd', 'sd', 2004, 'sdsds', 5);
+insert into book(id, title, author, publication, isbn, copies) values(1, 'dsd', 'sd', 2004, 'sdsds', 5);
 insert into user(id, name, username, password, phone_number, role) values(1,'patron', 'admin', 'admin', '0111111', 'ADMIN');
 insert into user(id, name, username, password, phone_number, role) values(2,'patron', 'patron', 'patron', '0111111', 'PATRON');
 insert into borrowing(book_id, user_id, borrowing_date, return_date) values(1, 1,  '2024-12-1', '2024-01-30');

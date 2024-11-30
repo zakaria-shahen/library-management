@@ -3,10 +3,9 @@ package com.example.librarymanagement.controller;
 import com.example.librarymanagement.dto.BookDto;
 import com.example.librarymanagement.service.BookService;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.List;
 
@@ -26,4 +25,15 @@ public class BookController {
     public BookDto getBook(@PathVariable long id) {
         return bookService.findById(id);
     }
+
+
+    @PostMapping
+    public ResponseEntity<Void> createBook(@RequestBody BookDto bookDto) {
+        var uri = ServletUriComponentsBuilder.fromCurrentRequestUri()
+                .path("/" + bookService.create(bookDto).getId())
+                .build().toUri();
+
+        return ResponseEntity.created(uri).build();
+    }
+
 }
