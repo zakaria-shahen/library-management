@@ -36,7 +36,7 @@ class BookControllerTest {
     ObjectMapper objectMapper;
 
     @Test
-    void name() throws Exception {
+    void fetchBooks() throws Exception {
         MvcResult mvcResult = mockMvc.perform(get("/books"))
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -51,12 +51,14 @@ class BookControllerTest {
     }
 
 
-
-
-
-
-
-
-
-
+    @Test
+    void findBookById() throws Exception {
+        MvcResult mvcResult = mockMvc.perform(get("/books/{id}", 1))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").isNotEmpty())
+                .andExpect(jsonPath("$.title").isNotEmpty())
+                .andDo(print())
+                .andReturn();
+    }
 }
