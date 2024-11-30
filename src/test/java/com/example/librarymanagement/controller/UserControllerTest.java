@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -16,6 +17,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -68,6 +70,31 @@ class UserControllerTest {
                 .andReturn();
     }
 
+    @Test
+    void createUser() throws Exception {
+        var userDto = new UserDto(1L, "test", "test", "test", "01111", "ADMIN");
+        MvcResult mvcResult = mockMvc.perform(post("/patrons")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(userDto))
+                )
+                .andExpect(status().isCreated())
+                .andExpect(header().exists(HttpHeaders.LOCATION))
+                .andDo(print())
+                .andReturn();
 
+        verifyUserExists(mvcResult.getResponse().getHeader(HttpHeaders.LOCATION), "test");
+    }
+
+    private void verifyUserExists(String url, String username) throws Exception {
+        MvcResult mvcResult = mockMvc.perform(get(url))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").isNotEmpty())
+                .andExpect(jsonPath("$.username").value(username))
+                .andDo(print())
+                .andReturn();
+        var response = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), UserDto.class);
+        Assertions.assertThat(response).isNotNull();
+    }
 
 }

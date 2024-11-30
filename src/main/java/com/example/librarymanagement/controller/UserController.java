@@ -3,10 +3,9 @@ package com.example.librarymanagement.controller;
 import com.example.librarymanagement.dto.UserDto;
 import com.example.librarymanagement.service.UserService;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.List;
 
@@ -26,4 +25,14 @@ public class UserController {
     public UserDto getUser(@PathVariable long id) {
         return userService.findById(id);
     }
+
+    @PostMapping
+    public ResponseEntity<Void> createUser(@RequestBody UserDto userDto) {
+        var uri = ServletUriComponentsBuilder.fromCurrentRequestUri()
+                .path("/" + userService.create(userDto).getId())
+                .build().toUri();
+        return ResponseEntity.created(uri).build();
+    }
+
+
 }

@@ -4,6 +4,7 @@ import com.example.librarymanagement.model.UserModel;
 import lombok.AllArgsConstructor;
 import org.jspecify.annotations.NonNull;
 import org.springframework.jdbc.core.simple.JdbcClient;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -26,5 +27,14 @@ public class UserRepository {
                 .param(id)
                 .query(UserModel.class)
                 .optional();
+    }
+
+    public @NonNull UserModel create(@NonNull UserModel model) {
+        var keyHolder = new GeneratedKeyHolder();
+        jdbcClient.sql("insert into user(name, username, password, phone_number, role) values(:name, :username, :password, :phoneNumber, :role)")
+                .paramSource(model)
+                .update(keyHolder);
+        model.setId(keyHolder.getKey().longValue());
+        return model;
     }
 }

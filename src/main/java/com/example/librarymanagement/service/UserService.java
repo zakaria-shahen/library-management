@@ -24,4 +24,10 @@ public class UserService {
                 .map(UserMapper.INSTANCE::toUserDto)
                 .orElseThrow(NotFoundResourceException::new);
     }
+
+    public @NonNull UserDto create(@NonNull UserDto userDto) {
+        var model = UserMapper.INSTANCE.toUserModel(userDto);
+
+        return UserMapper.INSTANCE.toUserDto(userRepository.create(model));
+    }
 }

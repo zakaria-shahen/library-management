@@ -12,12 +12,12 @@ public interface UserMapper {
 
     UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
 
-    UserDto toUserDto(UserModel book);
+    UserDto toUserDto(UserModel user);
 
-    UserModel toUserModel(UserDto bookDto);
+    UserModel toUserModel(UserDto userDto);
 
-    List<UserDto> toUserDto(List<UserModel> bookList);
+    List<UserDto> toUserDto(List<UserModel> userList);
 
-    List<UserModel> toBookModel(List<UserDto> bookDtoList);
+    List<UserModel> toUserModel(List<UserDto> userDtoList);
 
 }
