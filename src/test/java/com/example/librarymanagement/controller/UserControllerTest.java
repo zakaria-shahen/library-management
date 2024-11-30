@@ -46,6 +46,27 @@ class UserControllerTest {
         Assertions.assertThat(response).isNotNull();
     }
 
+    @Test
+    void fetchUserById() throws Exception {
+        MvcResult mvcResult = mockMvc.perform(get("/patrons/{id}", 1))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.id").isNotEmpty())
+                .andExpect(jsonPath("$.username").isNotEmpty())
+                .andDo(print())
+                .andReturn();
+
+        var response = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), UserDto.class);
+        Assertions.assertThat(response).isNotNull();
+    }
+
+    @Test
+    void fetchUserByIdNotFound() throws Exception {
+        MvcResult mvcResult = mockMvc.perform(get("/patrons/{id}", 10000))
+                .andExpect(status().isNotFound())
+                .andDo(print())
+                .andReturn();
+    }
 
 
 

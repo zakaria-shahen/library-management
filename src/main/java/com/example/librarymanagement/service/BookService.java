@@ -22,10 +22,9 @@ public class BookService {
     }
 
     public @NonNull BookDto findById(long id) {
-        return BookMapper.INSTANCE.toBookDto(
-                bookRepository.findById(id)
-                        .orElseThrow(NotFoundResourceException::new)
-        );
+        return bookRepository.findById(id)
+                .map(BookMapper.INSTANCE::toBookDto)
+                .orElseThrow(NotFoundResourceException::new);
     }
 
 
