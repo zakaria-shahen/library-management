@@ -42,4 +42,8 @@ public class UserService {
 
         return Optional.of(create(userDto));
     }
+
+    public void deleteById(long id) {
+        userRepository.deleteById(id);
+    }
 }

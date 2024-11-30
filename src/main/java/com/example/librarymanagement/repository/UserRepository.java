@@ -18,13 +18,13 @@ public class UserRepository {
 
 
     public List<UserModel> findAll() {
-        return jdbcClient.sql("select id, name, username, password, phone_number, role from user")
+        return jdbcClient.sql("select id, name, username, password, phone_number, role from user where is_deleted = false")
                 .query(UserModel.class)
                 .list();
     }
 
     public @NonNull Optional<UserModel> findById(long id) {
-        return jdbcClient.sql("select id, name, username, password, phone_number, role from user where id = ?")
+        return jdbcClient.sql("select id, name, username, password, phone_number, role from user where id = ? and is_deleted = false")
                 .param(id)
                 .query(UserModel.class)
                 .optional();
@@ -47,8 +47,14 @@ public class UserRepository {
      */
     public int update(@NonNull UserModel userModel) {
         return jdbcClient
-                .sql("update user set name = :name, username = :username, password = :password, phone_number = :phoneNumber, role = :role where id = :id")
+                .sql("update user set name = :name, username = :username, password = :password, phone_number = :phoneNumber, role = :role where id = :id and is_deleted = false")
                 .paramSource(userModel)
+                .update();
+    }
+
+    public void deleteById(long id) {
+        jdbcClient.sql("update user set is_deleted = true where id = ?")
+                .param(id)
                 .update();
     }
 }

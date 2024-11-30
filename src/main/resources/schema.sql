@@ -15,7 +15,9 @@ create table if not exists user(
     username varchar(300) not null,
     password varchar(70) not null,
     phone_number varchar(25),
-    role varchar(6) check ( role in ('ADMIN', 'PATRON') )
+    role varchar(6) check ( role in ('ADMIN', 'PATRON') ),
+    is_deleted boolean not null default false
+
 );
 
 
@@ -26,6 +28,7 @@ create table if not exists borrowing(
     borrowing_date date not null,
     return_date date not null,
     is_returns boolean not null default false,
+    is_deleted boolean not null default false,
     foreign key (book_id) references book(id),
     foreign key (user_id) references user(id),
     unique(book_id, user_id, borrowing_date, return_date)
