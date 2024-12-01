@@ -12,6 +12,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.stereotype.Component;
 
+import java.text.ParseException;
+
 @RequiredArgsConstructor
 @Component
 public class AuthenticationService {
@@ -43,14 +45,19 @@ public class AuthenticationService {
     public LoginResponse authenticationForRefreshToken(String refreshToken) {
         JWTClaimsSet claims = jwtService.verifyRefreshTokenAndGetClaims(refreshToken);
 
-        UserModel userModel = new UserModel(
-                Long.parseLong(claims.getSubject()),
-                claims.getClaim("name").toString(),
-                claims.getClaim("username").toString(),
-                null,
-                null,
-                claims.getAudience().getFirst()
-        );
+        UserModel userModel;
+        try {
+            userModel = new UserModel(
+                    Long.parseLong(claims.getSubject()),
+                    claims.getClaim("name").toString(),
+                    claims.getClaim("username").toString(),
+                    null,
+                    null,
+                    claims.getListClaim("scope").getFirst().toString()
+            );
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
 
         return new LoginResponse(
                 jwtService.generateToken(expireAfterMillis, false, userModel),

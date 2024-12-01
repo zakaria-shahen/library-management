@@ -1,8 +1,8 @@
 package com.example.librarymanagement.controller;
 
 import com.example.librarymanagement.TestcontainersConfiguration;
+import com.example.librarymanagement.Users;
 import com.example.librarymanagement.dto.BookDto;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -12,7 +12,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,7 +27,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Import(TestcontainersConfiguration.class)
 @AutoConfigureMockMvc
 @Transactional
-@WithMockUser
 class BookControllerTest {
 
     @Autowired
@@ -39,7 +37,7 @@ class BookControllerTest {
 
     @Test
     void fetchBooks() throws Exception {
-        MvcResult mvcResult = mockMvc.perform(get("/books"))
+        MvcResult mvcResult = mockMvc.perform(get("/books").with(Users.ANONYMOUS))
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.[0].id").isNotEmpty())
@@ -55,7 +53,7 @@ class BookControllerTest {
 
     @Test
     void findBookById() throws Exception {
-        MvcResult mvcResult = mockMvc.perform(get("/books/{id}", 1))
+        MvcResult mvcResult = mockMvc.perform(get("/books/{id}", 1).with(Users.ANONYMOUS))
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").isNotEmpty())
@@ -69,6 +67,7 @@ class BookControllerTest {
         var book = new BookDto(1L, "Spring in action", "Craig Walls", Short.parseShort("2022"), "9781638356486", 15L);
 
         MvcResult mvcResult = mockMvc.perform(post("/books")
+                        .with(Users.ADMIN)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(book))
                 ).andExpect(status().isCreated())
@@ -85,6 +84,7 @@ class BookControllerTest {
         book.setTitle("Spring in action 6th edition");
 
         MvcResult mvcResult = mockMvc.perform(put("/books/{id}", book.getId())
+                        .with(Users.ADMIN)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(book))
                 ).andExpect(status().isNoContent())
@@ -100,6 +100,7 @@ class BookControllerTest {
         var book = new BookDto(1000L, "dfdf", "dfd", Short.parseShort("2022"), "5515558356486", 10L);
 
         MvcResult mvcResult = mockMvc.perform(put("/books/{id}", book.getId())
+                        .with(Users.ADMIN)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(book))
                 ).andExpect(status().isCreated())
@@ -113,7 +114,7 @@ class BookControllerTest {
     @Test
     void deleteBook() throws Exception {
         long id = 1;
-        MvcResult mvcResult = mockMvc.perform(delete("/books/{id}", id))
+        MvcResult mvcResult = mockMvc.perform(delete("/books/{id}", id).with(Users.ADMIN))
                 .andExpect(status().isNoContent())
                 .andDo(print())
                 .andReturn();
@@ -124,7 +125,7 @@ class BookControllerTest {
     }
 
     private void verifyBookExists(String url, String title) throws Exception {
-        MvcResult mvcResult = mockMvc.perform(get(url))
+        MvcResult mvcResult = mockMvc.perform(get(url).with(Users.ANONYMOUS))
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").isNotEmpty())

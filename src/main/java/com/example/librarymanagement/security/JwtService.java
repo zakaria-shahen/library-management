@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.text.ParseException;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Date;
@@ -41,7 +42,7 @@ public class JwtService {
                 .claim("name", userModel.getName());
 
         if (isRefreshToken) {
-            claims.notBeforeTime(Date.from(expirationTime.plusMillis(10L)))
+            claims.notBeforeTime(Date.from(expirationTime))
                     .issueTime(Date.from(expirationTime))
                     .expirationTime(Date.from(expirationTime.plusMillis(expireAfterMillis + 10)));
             return generateJwt(claims.build(), defaultRSKeyRefreshToken);
@@ -79,9 +80,12 @@ public class JwtService {
             var jwt = SignedJWT.parse(refreshToken);
 
             JWSVerifier verifier = new RSASSAVerifier(defaultRSKeyRefreshToken);
-            if (!jwt.verify(verifier)) {
+
+            Instant now = Instant.now();
+            if (!jwt.verify(verifier) || jwt.getJWTClaimsSet().getNotBeforeTime().toInstant().isAfter(now)) {
                 throw new AuthInvalidException();
             }
+
 
             return jwt.getJWTClaimsSet();
 

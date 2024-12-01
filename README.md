@@ -15,4 +15,6 @@
     ./gradlew bootRun 
 ```
 
-``
+### Reference
+
+- simple JSON Web Key generator [https://mkjwk.org/](https://mkjwk.org/)

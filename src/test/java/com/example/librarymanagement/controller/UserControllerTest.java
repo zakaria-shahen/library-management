@@ -1,7 +1,9 @@
 package com.example.librarymanagement.controller;
 
 import com.example.librarymanagement.TestcontainersConfiguration;
+import com.example.librarymanagement.Users;
 import com.example.librarymanagement.dto.UserDto;
+import com.example.librarymanagement.security.SecurityConfig;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -11,7 +13,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,10 +22,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
-@Import(TestcontainersConfiguration.class)
+@Import({TestcontainersConfiguration.class, SecurityConfig.class})
 @AutoConfigureMockMvc
 @Transactional
-@WithMockUser
 class UserControllerTest {
 
     @Autowired
@@ -35,7 +35,7 @@ class UserControllerTest {
 
     @Test
     void fetchAllUsers() throws Exception {
-        MvcResult mvcResult = mockMvc.perform(get("/patrons"))
+        MvcResult mvcResult = mockMvc.perform(get("/patrons").with(Users.ADMIN))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.[0].id").isNotEmpty())
@@ -49,7 +49,7 @@ class UserControllerTest {
 
     @Test
     void fetchUserById() throws Exception {
-        MvcResult mvcResult = mockMvc.perform(get("/patrons/{id}", 1))
+        MvcResult mvcResult = mockMvc.perform(get("/patrons/{id}", 1).with(Users.USER_1))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.id").isNotEmpty())
@@ -63,7 +63,7 @@ class UserControllerTest {
 
     @Test
     void fetchUserByIdNotFound() throws Exception {
-        MvcResult mvcResult = mockMvc.perform(get("/patrons/{id}", 10000))
+        MvcResult mvcResult = mockMvc.perform(get("/patrons/{id}", 10000).with(Users.ADMIN))
                 .andExpect(status().isNotFound())
                 .andDo(print())
                 .andReturn();
@@ -73,6 +73,7 @@ class UserControllerTest {
     void createUser() throws Exception {
         var userDto = new UserDto(1L, "test", "test", "test", "01111", "ADMIN");
         MvcResult mvcResult = mockMvc.perform(post("/patrons")
+                        .with(Users.USER_1)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(userDto))
                 )
@@ -89,6 +90,7 @@ class UserControllerTest {
         var userDto = new UserDto(1L, "test", "test", "test", "01111", "ADMIN");
         userDto.setName("update test");
         MvcResult mvcResult = mockMvc.perform(put("/patrons/{id}", userDto.getId())
+                        .with(Users.USER_1)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(userDto))
                 )
@@ -105,6 +107,7 @@ class UserControllerTest {
         var userDto = new UserDto(1000L, "test", "test", "test", "01111", "ADMIN");
         userDto.setName("update test 2");
         MvcResult mvcResult = mockMvc.perform(put("/patrons/{id}", userDto.getId())
+                        .with(Users.ADMIN)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(userDto))
                 )
@@ -119,19 +122,19 @@ class UserControllerTest {
     @Test
     void deleteUserById() throws Exception {
         var id = 1L;
-        MvcResult mvcResult = mockMvc.perform(delete("/patrons/{id}", id))
+        MvcResult mvcResult = mockMvc.perform(delete("/patrons/{id}", id).with(Users.USER_1))
                 .andExpect(status().isNoContent())
                 .andDo(print())
                 .andReturn();
 
-        MvcResult deleteResult = mockMvc.perform(get("/patrons/{id}", id))
+        MvcResult deleteResult = mockMvc.perform(get("/patrons/{id}", id).with(Users.ADMIN))
                 .andExpect(status().isNotFound())
                 .andDo(print())
                 .andReturn();
     }
 
     private void verifyUserExists(String url, String username) throws Exception {
-        MvcResult mvcResult = mockMvc.perform(get(url))
+        MvcResult mvcResult = mockMvc.perform(get(url).with(Users.ADMIN))
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").isNotEmpty())

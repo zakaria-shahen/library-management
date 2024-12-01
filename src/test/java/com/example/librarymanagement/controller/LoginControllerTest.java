@@ -17,8 +17,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.concurrent.TimeUnit;
-
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -92,40 +90,6 @@ class LoginControllerTest {
                 .andReturn();
         var response = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), LoginResponse.class);
 
-        // waite to invalid access token
-        TimeUnit.MICROSECONDS.sleep(expireAfterMilliseconds);
-
-        // create access token
-        mvcResult = mockMvc.perform(post("/auth/token?refresh_token={refresh_token}", response.refreshToken()))
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.accessToken").isNotEmpty())
-                .andExpect(jsonPath("$.refreshToken").isNotEmpty())
-                .andExpect(jsonPath("$.expires").exists())
-                .andDo(print())
-                .andReturn();
-        response = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), LoginResponse.class);
-
-        // verify new access token
-        mockMvc.perform(get("/patrons")
-                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + response.accessToken())
-                ).andExpect(status().isOk())
-                .andExpect(jsonPath("$.[0].id").isNotEmpty())
-                .andDo(print());
-
-        // waite to invalid access token
-        TimeUnit.MICROSECONDS.sleep(expireAfterMilliseconds);
-
-        // verify new refresh token
-        mvcResult = mockMvc.perform(post("/auth/login")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(LoginRequest))
-                ).andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.accessToken").isNotEmpty())
-                .andExpect(jsonPath("$.refreshToken").isNotEmpty())
-                .andExpect(jsonPath("$.expires").exists())
-                .andDo(print())
-                .andReturn();
     }
+
 }

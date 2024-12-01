@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -27,10 +28,12 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("authentication.principal.claims['aud'] == (#id + '') || hasAuthority('SCOPE_ADMIN')")
     public UserDto getUser(@PathVariable long id) {
         return userService.findById(id);
     }
 
+    // registration endpoint
     @PostMapping
     public ResponseEntity<Void> createUser(@RequestBody UserDto userDto) {
         var uri = ServletUriComponentsBuilder.fromCurrentRequestUri()
@@ -40,9 +43,9 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("authentication.principal.claims['aud'] == (#id + '') || hasAuthority('SCOPE_ADMIN')")
     public ResponseEntity<Void> updateUser(@PathVariable long id, @RequestBody UserDto userDto) {
         userDto.setId(id);
-        var uri = ServletUriComponentsBuilder.fromCurrentRequestUri();
         Optional<UserDto> optionalUserDto = userService.update(userDto);
         return optionalUserDto.<ResponseEntity<Void>>map(it -> ResponseEntity
                 .status(HttpStatus.CREATED)
@@ -56,6 +59,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("authentication.principal.claims['aud'] == (#id + '') || hasAuthority('SCOPE_ADMIN')")
     public ResponseEntity<Void> deleteUser(@PathVariable long id) {
         userService.deleteById(id);
         return ResponseEntity.noContent().build();
