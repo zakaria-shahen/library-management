@@ -12,7 +12,7 @@ public class TestcontainersConfiguration {
 	@Bean
 	@ServiceConnection
 	MySQLContainer<?> mysqlContainer() {
-		return new MySQLContainer<>(DockerImageName.parse("mysql:latest")).withInitScript("schema.sql");
+		return new MySQLContainer<>(DockerImageName.parse("mysql:latest")).withInitScripts("schema.sql", "data.sql");
 	}
 
 }

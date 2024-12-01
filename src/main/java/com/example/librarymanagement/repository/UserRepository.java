@@ -1,6 +1,5 @@
 package com.example.librarymanagement.repository;
 
-import com.example.librarymanagement.dto.UserDto;
 import com.example.librarymanagement.model.UserModel;
 import lombok.AllArgsConstructor;
 import org.jspecify.annotations.NonNull;
@@ -56,5 +55,12 @@ public class UserRepository {
         jdbcClient.sql("update user set is_deleted = true where id = ?")
                 .param(id)
                 .update();
+    }
+
+    public @NonNull Optional<UserModel> findByUsername(@NonNull String username) {
+        return jdbcClient.sql("select id, name, username, password, phone_number, role from user where username = ? and is_deleted = false")
+                .param(username)
+                .query(UserModel.class)
+                .optional();
     }
 }
