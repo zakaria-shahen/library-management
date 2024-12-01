@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -33,7 +34,7 @@ public class BookController {
 
 
     @PostMapping
-    public ResponseEntity<Void> createBook(@RequestBody BookDto bookDto) {
+    public ResponseEntity<Void> createBook(@RequestBody @Validated BookDto bookDto) {
         var uri = ServletUriComponentsBuilder.fromCurrentRequestUri()
                 .path("/" + bookService.create(bookDto).getId())
                 .build().toUri();
@@ -42,7 +43,7 @@ public class BookController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateBook(@RequestBody BookDto bookDto, @PathVariable long id) {
+    public ResponseEntity<Void> updateBook(@RequestBody @Validated BookDto bookDto, @PathVariable long id) {
         bookDto.setId(id);
         var uri = ServletUriComponentsBuilder.fromCurrentRequestUri();
         Optional<BookDto> book = bookService.update(bookDto);

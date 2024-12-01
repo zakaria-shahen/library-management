@@ -7,6 +7,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -35,7 +36,7 @@ public class UserController {
 
     // registration endpoint
     @PostMapping
-    public ResponseEntity<Void> createUser(@RequestBody UserDto userDto) {
+    public ResponseEntity<Void> createUser(@RequestBody @Validated UserDto userDto) {
         var uri = ServletUriComponentsBuilder.fromCurrentRequestUri()
                 .path("/" + userService.create(userDto).getId())
                 .build().toUri();
@@ -44,7 +45,7 @@ public class UserController {
 
     @PutMapping("/{id}")
     @PreAuthorize("authentication.principal.claims['aud'] == (#id + '') || hasAuthority('SCOPE_ADMIN')")
-    public ResponseEntity<Void> updateUser(@PathVariable long id, @RequestBody UserDto userDto) {
+    public ResponseEntity<Void> updateUser(@PathVariable long id, @RequestBody @Validated UserDto userDto) {
         userDto.setId(id);
         Optional<UserDto> optionalUserDto = userService.update(userDto);
         return optionalUserDto.<ResponseEntity<Void>>map(it -> ResponseEntity
