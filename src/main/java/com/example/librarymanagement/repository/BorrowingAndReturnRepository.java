@@ -38,6 +38,13 @@ public class BorrowingAndReturnRepository {
                 .single();
     }
 
+    public int findBorrowingByUserId(long userId) {
+        return jdbcClient.sql("select count(*) from borrowing where user_id = ? and is_returned = false and is_deleted = false")
+                .param(userId)
+                .query(Integer.class)
+                .single();
+    }
+
     /**
      *
      * @param bookId book id

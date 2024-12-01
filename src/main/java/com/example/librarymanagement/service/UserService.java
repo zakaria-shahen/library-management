@@ -2,7 +2,9 @@ package com.example.librarymanagement.service;
 
 import com.example.librarymanagement.dto.UserDto;
 import com.example.librarymanagement.exception.NotFoundResourceException;
+import com.example.librarymanagement.exception.UserShouldReturnAllBookBeforeCloseAccountException;
 import com.example.librarymanagement.mapper.UserMapper;
+import com.example.librarymanagement.repository.BorrowingAndReturnRepository;
 import com.example.librarymanagement.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.jspecify.annotations.NonNull;
@@ -15,6 +17,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+    private final BorrowingAndReturnRepository borrowingAndReturnRepository;
 
     public @NonNull List<UserDto> findAll() {
         return UserMapper.INSTANCE.toUserDto(userRepository.findAll());
@@ -44,6 +47,11 @@ public class UserService {
     }
 
     public void deleteById(long id) {
+        var borrowing = borrowingAndReturnRepository.findBorrowingByUserId(id);
+        if (borrowing > 0) {
+             throw new UserShouldReturnAllBookBeforeCloseAccountException();
+        }
+
         userRepository.deleteById(id);
     }
 }
