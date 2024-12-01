@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,6 +33,9 @@ class UserControllerTest {
 
     @Autowired
     ObjectMapper objectMapper;
+
+    @Autowired
+    private JdbcClient jdbcClient;
 
     @Test
     void fetchAllUsers() throws Exception {
@@ -122,6 +126,11 @@ class UserControllerTest {
     @Test
     void deleteUserById() throws Exception {
         var id = 1L;
+        // make all borrowing returned
+        jdbcClient.sql("update borrowing set is_returned = true where user_id = ? and is_deleted = false")
+                .param(id)
+                .update();
+
         MvcResult mvcResult = mockMvc.perform(delete("/patrons/{id}", id).with(Users.USER_1))
                 .andExpect(status().isNoContent())
                 .andDo(print())
