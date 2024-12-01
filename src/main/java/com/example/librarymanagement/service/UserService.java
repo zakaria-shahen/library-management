@@ -9,6 +9,7 @@ import com.example.librarymanagement.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.jspecify.annotations.NonNull;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -46,6 +47,7 @@ public class UserService {
         return Optional.of(create(userDto));
     }
 
+    @Transactional
     public void deleteById(long id) {
         var borrowing = borrowingAndReturnRepository.findBorrowingByUserId(id);
         if (borrowing > 0) {
