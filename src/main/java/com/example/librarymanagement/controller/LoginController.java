@@ -3,6 +3,7 @@ package com.example.librarymanagement.controller;
 
 import com.example.librarymanagement.dto.auth.LoginRequest;
 import com.example.librarymanagement.dto.auth.LoginResponse;
+import com.example.librarymanagement.exception.AuthInvalidException;
 import com.example.librarymanagement.security.AuthenticationService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -36,10 +37,10 @@ public class LoginController {
             String clientSecret
     ) {
         if (!Objects.equals(grantType, "refresh_token") || !Objects.equals(clientId, "web") || !Objects.equals(clientSecret, "secret")) {
-//            throw new AuthInvalidException();
+            throw new AuthInvalidException();
         }
-    return null;
-//        return authenticationService.refreshTokenGrantType(refreshToken);
+
+        return authenticationService.authenticationForRefreshToken(refreshToken);
     }
 
 

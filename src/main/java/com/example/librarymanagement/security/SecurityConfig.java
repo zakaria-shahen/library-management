@@ -26,7 +26,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(it ->
-                        it.requestMatchers("/auth/login").permitAll()
+                        it.requestMatchers("/auth/**").permitAll()
                                 .anyRequest().authenticated()
                 ).csrf(AbstractHttpConfigurer::disable)
                 .oauth2ResourceServer(oauth2 -> oauth2
@@ -41,7 +41,15 @@ public class SecurityConfig {
     }
 
     @Bean
-    public RSAKey defaultRSKey(@Value("classpath:jwk-generate-token.json") Resource jwkGenerateToken) throws ParseException, IOException {
+    public RSAKey defaultRSKeyAccessToken(@Value("classpath:jwk-generate-token.json") Resource jwkGenerateToken) throws ParseException, IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        Map<String, Object> m = objectMapper.readerForMapOf(Object.class)
+                .readValue(jwkGenerateToken.getContentAsString(Charset.defaultCharset()));
+        return RSAKey.parse(m);
+    }
+
+    @Bean
+    public RSAKey defaultRSKeyRefreshToken(@Value("classpath:jwk-refresh-token.json") Resource jwkGenerateToken) throws ParseException, IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         Map<String, Object> m = objectMapper.readerForMapOf(Object.class)
                 .readValue(jwkGenerateToken.getContentAsString(Charset.defaultCharset()));

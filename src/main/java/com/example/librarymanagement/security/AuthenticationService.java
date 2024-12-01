@@ -5,23 +5,23 @@ import com.example.librarymanagement.dto.auth.LoginResponse;
 import com.example.librarymanagement.exception.AuthInvalidException;
 import com.example.librarymanagement.model.UserModel;
 import com.example.librarymanagement.repository.UserRepository;
-import com.nimbusds.jose.JOSEException;
-import com.nimbusds.jose.JWSAlgorithm;
-import com.nimbusds.jose.JWSHeader;
-import com.nimbusds.jose.JWSSigner;
+import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.RSASSASigner;
+import com.nimbusds.jose.crypto.RSASSAVerifier;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.text.ParseException;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.Date;
 import java.util.List;
 
@@ -32,9 +32,11 @@ public class AuthenticationService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final RSAKey defaultRasKey;
+    private final RSAKey defaultRSKeyAccessToken;
+    private final RSAKey defaultRSKeyRefreshToken;
 
-    private final static long EXPIRE_AFTER_MINUTES = 30;
+    @Value("${app.jwt.expire-after-milliseconds:36000}")
+    private long expireAfterMillis;
 
     public LoginResponse authentication(LoginRequest loginRequest) {
         return userRepository.findByUsername(loginRequest.username()).map(it -> {
@@ -43,18 +45,51 @@ public class AuthenticationService {
             }
 
             return new LoginResponse(
-                    generateToken(EXPIRE_AFTER_MINUTES, false,  it),
-                    generateToken(EXPIRE_AFTER_MINUTES, true, it),
-                    OAuth2AccessToken.TokenType.BEARER,
-                    EXPIRE_AFTER_MINUTES
+                    generateToken(expireAfterMillis, false,  it),
+                    generateToken(expireAfterMillis, true, it),
+                    OAuth2AccessToken.TokenType.BEARER.getValue(),
+                    expireAfterMillis
             );
 
         }).orElseThrow(AuthInvalidException::new);
     }
 
-    private String generateToken(long expireAfterMinutes, boolean isRefreshToken, UserModel userModel) {
-        var issueTime = LocalDateTime.now();
-        var expirationTime = issueTime.plusMinutes(expireAfterMinutes);
+
+    public LoginResponse authenticationForRefreshToken(String refreshToken) {
+        JWTClaimsSet claims;
+        try {
+            var jwt = SignedJWT.parse(refreshToken);
+
+            JWSVerifier verifier = new RSASSAVerifier(defaultRSKeyRefreshToken);
+            if (!jwt.verify(verifier)) {
+                throw new AuthInvalidException();
+            }
+            claims = jwt.getJWTClaimsSet();
+
+        } catch (JOSEException | ParseException e) {
+            throw new AuthInvalidException();
+        }
+        UserModel userModel = new UserModel(
+                Long.parseLong(claims.getSubject()),
+                claims.getClaim("name").toString(),
+                claims.getClaim("username").toString(),
+                null,
+                null,
+                claims.getAudience().getFirst()
+        );
+
+        return new LoginResponse(
+                generateToken(expireAfterMillis, false, userModel),
+                generateToken(expireAfterMillis, true, userModel),
+                OAuth2AccessToken.TokenType.BEARER.getValue(),
+                expireAfterMillis
+        );
+    }
+
+
+    private String generateToken(long expireAfterMillis, boolean isRefreshToken, UserModel userModel) {
+        var issueTime = LocalDateTime.now().atZone(ZoneOffset.systemDefault()).toInstant();
+        var expirationTime = issueTime.plusMillis(expireAfterMillis);
         var uri = ServletUriComponentsBuilder.fromCurrentContextPath().replacePath("/");
         var claims = new JWTClaimsSet.Builder()
                 .issuer(uri.toUriString())
@@ -65,25 +100,24 @@ public class AuthenticationService {
                 .claim("name", userModel.getName());
 
         if (isRefreshToken) {
-            claims.notBeforeTime(convertToDate(expirationTime.plusMinutes(1)))
-                .issueTime(convertToDate(expirationTime))
-                .expirationTime(convertToDate(expirationTime.plusMinutes(expireAfterMinutes)));
-        } else {
-            claims.issueTime(convertToDate(issueTime))
-                .expirationTime(convertToDate(expirationTime));
+            claims.notBeforeTime(Date.from(expirationTime.plusMillis(10L)))
+                .issueTime(Date.from(expirationTime))
+                .expirationTime(Date.from(expirationTime.plusMillis(expireAfterMillis + 10)));
+            return generateJwt(claims.build(), defaultRSKeyRefreshToken);
         }
 
-
-        return generateJwt(claims.build());
+        claims.issueTime(Date.from(issueTime))
+                .expirationTime(Date.from(expirationTime));
+        return generateJwt(claims.build(), defaultRSKeyAccessToken);
 
     }
 
 
-    private String generateJwt(JWTClaimsSet claims) {
+    private String generateJwt(JWTClaimsSet claims, RSAKey rsaKey) {
         try {
-            JWSSigner signer = new RSASSASigner(defaultRasKey.toRSAKey());
+            JWSSigner signer = new RSASSASigner(rsaKey.toRSAKey());
             JWSHeader jwsHeader = new JWSHeader.Builder(JWSAlgorithm.RS512)
-                    .keyID(defaultRasKey.getKeyID())
+                    .keyID(rsaKey.getKeyID())
                     .build();
 
             SignedJWT signedJWT = new SignedJWT(jwsHeader, claims);
@@ -95,10 +129,6 @@ public class AuthenticationService {
             throw new AuthInvalidException();
         }
 
-    }
-
-    private Date convertToDate(LocalDateTime localDateTime) {
-        return Date.from(localDateTime.plusMinutes(30L).atZone(ZoneId.systemDefault()).toInstant());
     }
 
 
