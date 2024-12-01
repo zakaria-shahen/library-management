@@ -10,3 +10,7 @@ services:
       - '3306:3306'
     volumes:
       - "./src/main/resources:/docker-entrypoint-initdb.d"
+  redis:
+    image: 'redis:latest'
+    ports:
+      - '6379:6379'
