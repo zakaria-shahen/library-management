@@ -31,6 +31,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
 	implementation("org.springframework.boot:spring-boot-starter-cache")
 	implementation("org.springframework.boot:spring-boot-starter-data-redis")
+	implementation("org.springframework.boot:spring-boot-starter-actuator")
 	implementation("org.jspecify:jspecify:1.0.0")
 	implementation("org.mapstruct:mapstruct:1.6.3")
 

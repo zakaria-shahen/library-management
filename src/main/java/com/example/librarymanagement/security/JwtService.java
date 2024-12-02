@@ -10,6 +10,8 @@ import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
 import lombok.AllArgsConstructor;
 import org.jspecify.annotations.NonNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -27,6 +29,7 @@ public class JwtService {
 
     private final RSAKey defaultRSKeyAccessToken;
     private final RSAKey defaultRSKeyRefreshToken;
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @NonNull
     public String generateToken(long expireAfterMillis, boolean isRefreshToken, @NonNull UserModel userModel) {
@@ -69,6 +72,7 @@ public class JwtService {
             return signedJWT.serialize();
 
         } catch (JOSEException ex) {
+            logger.error( "Something Wrong when trying to generate JWT token:  {}" ,ex.getMessage());
             throw new AuthInvalidException();
         }
 
@@ -90,6 +94,7 @@ public class JwtService {
             return jwt.getJWTClaimsSet();
 
         } catch (JOSEException | ParseException ex) {
+            logger.error( "Something Wrong when trying to verify & get claims from refresh token:  {}" ,ex.getMessage());
             throw new AuthInvalidException();
         }
 
