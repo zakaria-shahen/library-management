@@ -3,14 +3,18 @@ package com.example.librarymanagement.security;
 import com.example.librarymanagement.dto.auth.LoginRequest;
 import com.example.librarymanagement.dto.auth.LoginResponse;
 import com.example.librarymanagement.exception.AuthInvalidException;
+import com.example.librarymanagement.model.BlockedTokenModel;
 import com.example.librarymanagement.model.UserModel;
+import com.example.librarymanagement.repository.BlockedTokenRepository;
 import com.example.librarymanagement.repository.UserRepository;
 import com.nimbusds.jwt.JWTClaimsSet;
 import lombok.RequiredArgsConstructor;
+import org.jspecify.annotations.NonNull;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.text.ParseException;
 
@@ -21,6 +25,7 @@ public class AuthenticationService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
+    private final BlockedTokenRepository blockedTokenRepository;
 
     @Value("${app.jwt.expire-after-milliseconds:36000}")
     private long expireAfterMillis;
@@ -41,10 +46,13 @@ public class AuthenticationService {
         }).orElseThrow(AuthInvalidException::new);
     }
 
+    @Transactional
+    public LoginResponse authenticationForRefreshToken(@NonNull String refreshToken) {
+        if (refreshToken.isEmpty() || blockedTokenRepository.existsById(refreshToken)) {
+            throw new AuthInvalidException();
+        }
 
-    public LoginResponse authenticationForRefreshToken(String refreshToken) {
         JWTClaimsSet claims = jwtService.verifyRefreshTokenAndGetClaims(refreshToken);
-
         UserModel userModel;
         try {
             userModel = new UserModel(
@@ -67,5 +75,13 @@ public class AuthenticationService {
         );
     }
 
+    @Transactional
+    public void logout(@NonNull String accessToken, @NonNull String refreshToken) {
+        if (refreshToken.isEmpty()) {
+            throw new AuthInvalidException();
+        }
 
+        blockedTokenRepository.save(new BlockedTokenModel(refreshToken));
+        blockedTokenRepository.save(new BlockedTokenModel(accessToken));
+    }
 }

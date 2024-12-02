@@ -6,6 +6,9 @@ import com.example.librarymanagement.dto.auth.LoginResponse;
 import com.example.librarymanagement.exception.AuthInvalidException;
 import com.example.librarymanagement.security.AuthenticationService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.server.resource.authentication.AbstractOAuth2TokenAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Objects;
@@ -13,17 +16,14 @@ import java.util.Objects;
 @AllArgsConstructor
 @RestController
 @RequestMapping("/auth")
-public class LoginController {
+public class AuthController {
 
-    private AuthenticationService authenticationService;
-
+    private final AuthenticationService authenticationService;
 
     @PostMapping("/login")
     public LoginResponse login(@RequestBody LoginRequest loginRequest) {
         return authenticationService.authentication(loginRequest);
     }
-
-
 
     @PostMapping("/token")
     public LoginResponse newToken(
@@ -43,6 +43,12 @@ public class LoginController {
         return authenticationService.authenticationForRefreshToken(refreshToken);
     }
 
+    @PostMapping("/logout")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void logout(@RequestParam("refresh_token") String refreshToken, Authentication authentication) {
+        var accessToken = ((AbstractOAuth2TokenAuthenticationToken<?>) authentication).getToken().getTokenValue();
+        authenticationService.logout(accessToken, refreshToken);
+    }
 
 
 }
