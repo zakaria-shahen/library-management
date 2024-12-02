@@ -3,6 +3,7 @@ package com.example.librarymanagement.controller;
 import com.example.librarymanagement.dto.BookDto;
 import com.example.librarymanagement.service.BookService;
 import lombok.AllArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +24,7 @@ public class BookController {
     private BookService bookService;
 
     @GetMapping
+    @Cacheable("getBooks")
     public List<BookDto> getBooks() {
         return bookService.findAll();
     }
