@@ -46,7 +46,7 @@ public class UserRepository {
      */
     public int update(@NonNull UserModel userModel) {
         return jdbcClient
-                .sql("update user set name = :name, username = :username, password = :password, phone_number = :phoneNumber, role = :role where id = :id and is_deleted = false")
+                .sql("update user set name = :name, username = :username, password = :password, phone_number = :phoneNumber where id = :id and is_deleted = false")
                 .paramSource(userModel)
                 .update();
     }

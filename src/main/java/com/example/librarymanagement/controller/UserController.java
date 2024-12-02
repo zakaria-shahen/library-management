@@ -29,7 +29,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("authentication.principal.claims['aud'] == (#id + '') || hasAuthority('SCOPE_ADMIN')")
+    @PreAuthorize("principal.claims['sub'] == T(String).valueOf(#id) || hasAuthority('SCOPE_ADMIN')")
     public UserDto getUser(@PathVariable long id) {
         return userService.findById(id);
     }
@@ -44,7 +44,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("authentication.principal.claims['aud'] == (#id + '') || hasAuthority('SCOPE_ADMIN')")
+    @PreAuthorize("principal.claims['sub'] == T(String).valueOf(#id) || hasAuthority('SCOPE_ADMIN')")
     public ResponseEntity<Void> updateUser(@PathVariable long id, @RequestBody @Validated UserDto userDto) {
         userDto.setId(id);
         Optional<UserDto> optionalUserDto = userService.update(userDto);
@@ -60,7 +60,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("authentication.principal.claims['aud'] == (#id + '') || hasAuthority('SCOPE_ADMIN')")
+    @PreAuthorize("principal.claims['sub'] == T(String).valueOf(#id) || hasAuthority('SCOPE_ADMIN')")
     public ResponseEntity<Void> deleteUser(@PathVariable long id) {
         userService.deleteById(id);
         return ResponseEntity.noContent().build();

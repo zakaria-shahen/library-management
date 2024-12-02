@@ -17,7 +17,7 @@ public class BorrowingAndReturnController {
     private final BorrowingAndReturnService borrowingAndReturnService;
 
     @PostMapping("/borrowing/{bookId}/user/{userId}")
-    @PreAuthorize("authentication.principal.claims['aud'] == (#userId + '') || hasAuthority('SCOPE_ADMIN')")
+    @PreAuthorize("principal.claims['sub'] == T(String).valueOf(#userId) || hasAuthority('SCOPE_ADMIN')")
     public ResponseEntity<Void> borrowing(@PathVariable long bookId, @PathVariable long userId, @RequestBody BorrowingDto borrowingDto) {
         var borrowingId = borrowingAndReturnService.borrowing(bookId, userId, borrowingDto).getId();
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/" + borrowingId).build().toUri();
@@ -25,7 +25,7 @@ public class BorrowingAndReturnController {
         return ResponseEntity.created(uri).build();
     }
 
-    @PreAuthorize("authentication.principal.claims['aud'] == (#userId + '') || hasAuthority('SCOPE_ADMIN')")
+    @PreAuthorize("principal.claims['sub'] == T(String).valueOf(#userId) || hasAuthority('SCOPE_ADMIN')")
     @PutMapping("/return/{bookId}/user/{userId}")
     public ResponseEntity<Void> returns(@PathVariable long bookId, @PathVariable long userId) {
         borrowingAndReturnService.returns(bookId, userId);

@@ -12,12 +12,11 @@ create table if not exists book(
 create table if not exists user(
     id int primary key auto_increment,
     name varchar(300) not null,
-    username varchar(300) not null,
+    username varchar(300) not null unique,
     password varchar(70) not null,
     phone_number varchar(25),
     role varchar(6) check ( role in ('ADMIN', 'PATRON') ),
     is_deleted boolean not null default false
-
 );
 
 
@@ -30,6 +29,5 @@ create table if not exists borrowing(
     is_returned boolean not null default false,
     is_deleted boolean not null default false,
     foreign key (book_id) references book(id),
-    foreign key (user_id) references user(id),
-    unique(book_id, user_id, borrowing_date, return_date)
+    foreign key (user_id) references user(id)
 );
