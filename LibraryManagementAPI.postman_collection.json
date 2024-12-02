@@ -1,0 +1,2029 @@
+{
+	"info": {
+		"_postman_id": "e1aa4ca0-e05a-469f-a053-19b7eca1eb26",
+		"name": "LibraryManagementAPI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18052030"
+	},
+	"item": [
+		{
+			"name": "Books",
+			"item": [
+				{
+					"name": "GET_books",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/books",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"books"
+							]
+						},
+						"description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
+					},
+					"response": [
+						{
+							"name": "GET_books",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/books",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"books"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 02 Dec 2024 13:18:09 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": 1,\n        \"title\": \"dsd\",\n        \"author\": \"sd\",\n        \"publication\": 2004,\n        \"isbn\": \"sdsds\",\n        \"copies\": 5\n    },\n    {\n        \"id\": 2,\n        \"title\": \"sssdsd\",\n        \"author\": \"sd\",\n        \"publication\": 2004,\n        \"isbn\": \"dddsdsds\",\n        \"copies\": 5\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "GET_book_id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/books/{{BOOK_ID}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"books",
+								"{{BOOK_ID}}"
+							]
+						},
+						"description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
+					},
+					"response": [
+						{
+							"name": "GET_books",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/books/{{BOOK_ID}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"books",
+										"{{BOOK_ID}}"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 02 Dec 2024 13:17:53 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 1,\n    \"title\": \"dsd\",\n    \"author\": \"sd\",\n    \"publication\": 2004,\n    \"isbn\": \"sdsds\",\n    \"copies\": 5\n}"
+						}
+					]
+				},
+				{
+					"name": "PUT_book",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Kubernetes in Action\",\r\n    \"author\": \"Marko Lukša, Kevin Conner\",\r\n    \"publication\": 2025,\r\n    \"isbn\": \"9781617297618\",\r\n    \"copies\": 5\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/books/{{USER_ID}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"books",
+								"{{USER_ID}}"
+							]
+						},
+						"description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
+					},
+					"response": [
+						{
+							"name": "204 No Content",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"Kubernetes in Action\",\r\n    \"author\": \"Marko Lukša, Kevin Conner\",\r\n    \"publication\": 2025,\r\n    \"isbn\": \"9781617297618\",\r\n    \"copies\": 5\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/books/{{BOOK_ID}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"books",
+										"{{BOOK_ID}}"
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Content-Location",
+									"value": "http://localhost:8080/api/books/1"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 02 Dec 2024 13:30:26 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "201 Created",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"OAuth 2 in Action\",\r\n    \"author\": \"Justin Richer and Antonio Sanso\",\r\n    \"publication\": 2017,\r\n    \"isbn\": \"9781617293276\",\r\n    \"copies\": 10\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/books/100000",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"books",
+										"100000"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Content-Location",
+									"value": "http://localhost:8080/api/books/4"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "0"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 02 Dec 2024 13:34:48 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "POST_BOOK",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\": \"Spring Secuiry in action\",\r\n  \"author\": \"Laurentiu Spilca\",\r\n  \"publication\": 2024,\r\n  \"isbn\": \"9781633437975\",\r\n  \"copies\": 10\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/books",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"books"
+							]
+						},
+						"description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
+					},
+					"response": [
+						{
+							"name": "201 Created",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"title\": \"Spring Secuiry in action\",\r\n  \"author\": \"Laurentiu Spilca\",\r\n  \"publication\": 2024,\r\n  \"isbn\": \"9781633437975\",\r\n  \"copies\": 10\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/books",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"books"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Location",
+									"value": "http://localhost:8080/api/books/3"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "0"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 02 Dec 2024 13:25:56 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "unique - 409 Conflict",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"title\": \"Spring Secuiry in action\",\r\n  \"author\": \"Laurentiu Spilca\",\r\n  \"publication\": 2024,\r\n  \"isbn\": \"9781633437975\",\r\n  \"copies\": 10\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/books",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"books"
+									]
+								}
+							},
+							"status": "Conflict",
+							"code": 409,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/problem+json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 02 Dec 2024 13:36:31 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"type\": \"about:blank\",\n    \"title\": \"Conflict\",\n    \"status\": 409,\n    \"detail\": \"some of your property should be unique\",\n    \"instance\": \"/api/books\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Borrowing_Returns",
+			"item": [
+				{
+					"name": "POST_borrowing",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Successful PUT request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201, 204]);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"borrowingDate\": \"2025-02-01\",\n  \"returnDate\": \"2025-02-20\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/borrowing/{{BOOK_ID}}/user/{{USER_ID}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"borrowing",
+								"{{BOOK_ID}}",
+								"user",
+								"{{USER_ID}}"
+							]
+						},
+						"description": "This is a PUT request and it is used to overwrite an existing piece of data. For instance, after you create an entity with a POST request, you may want to modify that later. You can do that using a PUT request. You typically identify the entity being updated by including an identifier in the URL (eg. `id=1`).\n\nA successful PUT request typically returns a `200 OK`, `201 Created`, or `204 No Content` response code."
+					},
+					"response": [
+						{
+							"name": "201 Created",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"borrowingDate\": \"2025-02-01\",\n  \"returnDate\": \"2025-02-20\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/borrowing/{{BOOK_ID}}/user/{{USER_ID}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"borrowing",
+										"{{BOOK_ID}}",
+										"user",
+										"{{USER_ID}}"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Location",
+									"value": "http://localhost:8080/api/borrowing/1/user/2/2"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "0"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 02 Dec 2024 14:48:52 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "409 Conflict",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"borrowingDate\": \"2025-02-01\",\n  \"returnDate\": \"2025-02-20\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/borrowing/{{BOOK_ID}}/user/{{USER_ID}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"borrowing",
+										"{{BOOK_ID}}",
+										"user",
+										"{{USER_ID}}"
+									]
+								}
+							},
+							"status": "Conflict",
+							"code": 409,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 02 Dec 2024 14:53:15 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"timestamp\": \"2024-12-02T14:53:15.171+00:00\",\n    \"status\": 409,\n    \"error\": \"Conflict\",\n    \"message\": \"You can borrow a book one at a time, and you have already borrowed it without returning it.\",\n    \"path\": \"/api/borrowing/1/user/2\"\n}"
+						},
+						{
+							"name": "409 Conflict",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"borrowingDate\": \"2025-02-01\",\n  \"returnDate\": \"2025-02-20\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/borrowing/{{BOOK_ID}}/user/{{USER_ID}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"borrowing",
+										"{{BOOK_ID}}",
+										"user",
+										"{{USER_ID}}"
+									]
+								}
+							},
+							"status": "Conflict",
+							"code": 409,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 02 Dec 2024 14:57:43 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"timestamp\": \"2024-12-02T14:57:43.908+00:00\",\n    \"status\": 409,\n    \"error\": \"Conflict\",\n    \"message\": \"Unavailable book copies, try another time, or choose other book\",\n    \"path\": \"/api/borrowing/1/user/2\"\n}"
+						}
+					]
+				},
+				{
+					"name": "POST_return",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Successful DELETE request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 202, 204]);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/return/{{BOOK_ID}}/user/{{USER_ID}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"return",
+								"{{BOOK_ID}}",
+								"user",
+								"{{USER_ID}}"
+							]
+						},
+						"description": "This is a DELETE request, and it is used to delete data that was previously created via a POST request. You typically identify the entity being updated by including an identifier in the URL (eg. `id=1`).\n\nA successful DELETE request typically returns a `200 OK`, `202 Accepted`, or `204 No Content` response code."
+					},
+					"response": [
+						{
+							"name": "204 No Content",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/return/{{BOOK_ID}}/user/{{USER_ID}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"return",
+										"{{BOOK_ID}}",
+										"user",
+										"{{USER_ID}}"
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 02 Dec 2024 14:49:37 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "404 Not Found",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/return/2/user/{{USER_ID}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"return",
+										"2",
+										"user",
+										"{{USER_ID}}"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 02 Dec 2024 14:55:53 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"timestamp\": \"2024-12-02T14:55:53.938+00:00\",\n    \"status\": 404,\n    \"error\": \"Not Found\",\n    \"message\": \"Not Found resource\",\n    \"path\": \"/api/return/2/user/2\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Patrons",
+			"item": [
+				{
+					"name": "GET_patrons",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/patrons",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"patrons"
+							]
+						},
+						"description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
+					},
+					"response": []
+				},
+				{
+					"name": "GET_patrons_id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/patrons/{{USER_ID}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"patrons",
+								"{{USER_ID}}"
+							]
+						},
+						"description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
+					},
+					"response": [
+						{
+							"name": "200 OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/patrons/{{USER_ID}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"patrons",
+										"{{USER_ID}}"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 02 Dec 2024 14:05:40 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 2,\n    \"name\": \"patron\",\n    \"username\": \"patron\",\n    \"password\": null,\n    \"phoneNumber\": \"0111111\",\n    \"role\": \"PATRON\"\n}"
+						},
+						{
+							"name": "403 Forbidden",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/patrons/{{ADMIN_ID}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"patrons",
+										"{{ADMIN_ID}}"
+									]
+								}
+							},
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "WWW-Authenticate",
+									"value": "Bearer error=\"insufficient_scope\", error_description=\"The request requires higher privileges than provided by the access token.\", error_uri=\"https://tools.ietf.org/html/rfc6750#section-3.1\""
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "0"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 02 Dec 2024 14:06:33 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "PUT_patrons_id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"new\",\r\n  \"username\": \"new\",\r\n  \"password\": \"new\",\r\n  \"phoneNumber\": \"0111111\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/patrons/{{ADMIN_ID}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"patrons",
+								"{{ADMIN_ID}}"
+							]
+						},
+						"description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
+					},
+					"response": [
+						{
+							"name": "204 No Content",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"new\",\r\n  \"username\": \"new\",\r\n  \"password\": \"new\",\r\n  \"phoneNumber\": \"0111111\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/patrons/{{USER_ID}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"patrons",
+										"{{USER_ID}}"
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Content-Location",
+									"value": "http://localhost:8080/api/patrons/2"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 02 Dec 2024 14:21:57 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "403 Forbidden",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"new\",\r\n  \"username\": \"new\",\r\n  \"password\": \"new\",\r\n  \"phoneNumber\": \"0111111\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/patrons/{{ADMIN_ID}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"patrons",
+										"{{ADMIN_ID}}"
+									]
+								}
+							},
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "WWW-Authenticate",
+									"value": "Bearer error=\"insufficient_scope\", error_description=\"The request requires higher privileges than provided by the access token.\", error_uri=\"https://tools.ietf.org/html/rfc6750#section-3.1\""
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "0"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 02 Dec 2024 14:41:26 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "POST_patrons",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"new\",\r\n  \"username\": \"new\",\r\n  \"password\": \"new\",\r\n  \"phoneNumber\": \"0111111\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/patrons",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"patrons"
+							]
+						},
+						"description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
+					},
+					"response": [
+						{
+							"name": "201 Created",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"new\",\r\n  \"username\": \"new\",\r\n  \"password\": \"new\",\r\n  \"phoneNumber\": \"0111111\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/patrons",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"patrons"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Location",
+									"value": "http://localhost:8080/api/patrons/4"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "0"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 02 Dec 2024 14:18:10 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": null
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "LoginWithAdmin",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.set(\"accessToken\", pm.response.json().accessToken);",
+							"pm.collectionVariables.set(\"refreshToken\", pm.response.json().refreshToken);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"username\": \"admin\",\n  \"password\": \"admin\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/auth/login",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"auth",
+						"login"
+					]
+				},
+				"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+			},
+			"response": [
+				{
+					"name": "200 OK",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"admin\",\n  \"password\": \"admin\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "0"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, no-store, max-age=0, must-revalidate"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "Expires",
+							"value": "0"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 02 Dec 2024 13:38:14 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"accessToken\": \"eyJraWQiOiJtTmtPZnRuZW14WDFEZzRTdVF0c2E2X3NiaHNYMEJWcXFjRU1rN0JsUGFrIiwiYWxnIjoiUlM1MTIifQ.eyJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjgwODAvZnJvbnQtZW5kIiwic3ViIjoiMSIsInNjb3BlIjpbIkFETUlOIl0sImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODA4MC8iLCJuYW1lIjoiQWRtaW4iLCJleHAiOjE3MzMxNDY3MzAsImlhdCI6MTczMzE0NjY5NCwidXNlcm5hbWUiOiJhZG1pbiJ9.R2z6JC2NPVlTaLP_53GUyll7479cw7bf0NZYNwWxIaproe01jAUNl64lz0UmyvEvXd16Xkbo9FWtk9a0brmYQu3N9eFQTFcU1K_fVDXGoVrYX19VJmN_k_UkzeSoqqyOzQprvT_RxTyClcy5ZXveBGy6HcJRiHXmbYWcEMH0T4tEXsvf3sWMb94skU38BN00zcTGPWCu044xekZq8YgYl1shRGZYRm5FfzmJgY7bP8wdQ1vKKMH3Tkx6IYsmnXnvV2MhwkjTCYQQX24ko8eKWuLRNf5xSZHLcUWCITBsk6t8wkvt33wDWIm82uo5FQj_8vuBrPfBMUxjez3bySrntw\",\n    \"refreshToken\": \"eyJraWQiOiJYY0FvWnVjanU2cHhnT2dUdGdFVlAyM2RnbmhkYjIwNjRydVdQdF9UcUM0IiwiYWxnIjoiUlM1MTIifQ.eyJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjgwODAvZnJvbnQtZW5kIiwic3ViIjoiMSIsIm5iZiI6MTczMzE0NjczMCwic2NvcGUiOlsiQURNSU4iXSwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo4MDgwLyIsIm5hbWUiOiJBZG1pbiIsImV4cCI6MTczMzE0Njc2NiwiaWF0IjoxNzMzMTQ2NzMwLCJ1c2VybmFtZSI6ImFkbWluIn0.UhqFfWDshVFYW64TaAqr6g4chy0NM_wTOG0sZfRblps1ECojguHYC8-2de-gjprh8vA479q7DoNHQjlsdpDRfyE4pjdnW6XEFefRXPHU21ONGE6dvGqtZkVzdfcWoGPDovpzp4XMye8oiz2Fg9upQb13V5SaBXoATzaK-jsnUYe4UNoBEtzlUNhJG5cZubzMLo4sG5xS56byA_Fapo38jIzL_GfWYWoOHEm3byNruLf3i1Wg2GUNKO9JCX0rdq9ReMz5kAkKTJA8rPxDNBxat9kRrw7klNdZNje2P417jWVokqYlaWk9lvm_SFDE026FvBqzSf0zcUasCrEHwOjwlQ\",\n    \"tokenType\": \"Bearer\",\n    \"expires\": 36000\n}"
+				}
+			]
+		},
+		{
+			"name": "TokenFromRefreshToken",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.set(\"accessToken\", pm.response.json().accessToken);",
+							"pm.collectionVariables.set(\"refreshToken\", pm.response.json().refreshToken);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/auth/token?refresh_token={{refreshToken}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"auth",
+						"token"
+					],
+					"query": [
+						{
+							"key": "refresh_token",
+							"value": "{{refreshToken}}"
+						}
+					]
+				},
+				"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+			},
+			"response": [
+				{
+					"name": "200 OK",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/auth/token?refresh_token={{refreshToken}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"token"
+							],
+							"query": [
+								{
+									"key": "refresh_token",
+									"value": "{{refreshToken}}"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "0"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, no-store, max-age=0, must-revalidate"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "Expires",
+							"value": "0"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 02 Dec 2024 15:06:05 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"accessToken\": \"eyJraWQiOiJtTmtPZnRuZW14WDFEZzRTdVF0c2E2X3NiaHNYMEJWcXFjRU1rN0JsUGFrIiwiYWxnIjoiUlM1MTIifQ.eyJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjgwODAvZnJvbnQtZW5kIiwic3ViIjoiMiIsInNjb3BlIjpbIlBBVFJPTiJdLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwODAvIiwibmFtZSI6InBhdHJvbiIsImV4cCI6MTczMzE1MTk2NSwiaWF0IjoxNzMzMTUxOTY1LCJ1c2VybmFtZSI6InBhdHJvbiJ9.nC5_elfXkmt4--ncnLij5oV71UkiJH9kcZQ_KfnjzBp-hRTmahOyxchGqaKFS-hJ9dCVyUSuN1V3yqWvtB1zllzUOwupV86SyVu-ZXDCStr0TNu7pgpdhd9N82kqhrGvjaAgzffrr8PmKV-EDENJvFwxbDvNQFSAJS470XoybxOC77oXHDr11RGP5aIECDnV-tmLvcXUZ7hmP-Msf33XW36lsp7Nuy_aNQ97Le4md6L26OYpx5J6DVkNu7z5zPeGludFjKhh7z6appOgD0AXbtKOM3AvYD-YmQkWmsp4vkdS1og9zpvGraxV9tm64XKcUnZibkSHYznxjbq-bTiWig\",\n    \"refreshToken\": \"eyJraWQiOiJYY0FvWnVjanU2cHhnT2dUdGdFVlAyM2RnbmhkYjIwNjRydVdQdF9UcUM0IiwiYWxnIjoiUlM1MTIifQ.eyJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjgwODAvZnJvbnQtZW5kIiwic3ViIjoiMiIsIm5iZiI6MTczMzE1MTk2NSwic2NvcGUiOlsiUEFUUk9OIl0sImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODA4MC8iLCJuYW1lIjoicGF0cm9uIiwiZXhwIjoxNzMzMTUxOTY1LCJpYXQiOjE3MzMxNTE5NjUsInVzZXJuYW1lIjoicGF0cm9uIn0.XyzJOEQYvsxc0yo6wWFbjNGXWCgbOkWItDG2mljU1a5MuQLXd7tIjq09t08-DNpSjeHF-Z96hhscbjtxwNseF5AwmImk66SXeAndtJM3z2oJdyFiGDHuHHffXqZZCPQewfriqTVHOGrBZYVIrwWMtvmPAxaSVfXIHmwbv0jvCWEfyE8Tr0a63GnKaIcPx5RPsI2Dw7VlTA_onqf1ZkQO_mvNmf30VZlbZLGNp7fAXKvO-GVWAaNoY_dY6_4Qmj4Lr_2cvO9mt5TmJbVHYGNaxwa1jpfxmq7ZHuW5rFSCzdUq8y-hep6hHB9zPs-tAQrhYDlFF98u6aZA8QWtPfAVpQ\",\n    \"tokenType\": \"Bearer\",\n    \"expires\": 100\n}"
+				}
+			]
+		},
+		{
+			"name": "LoginWithPatron",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.set(\"accessToken\", pm.response.json().accessToken);",
+							"pm.collectionVariables.set(\"refreshToken\", pm.response.json().refreshToken);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"username\": \"patron\",\n  \"password\": \"patron\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/auth/login",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"auth",
+						"login"
+					]
+				},
+				"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+			},
+			"response": [
+				{
+					"name": "200 OK",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"patron\",\n  \"password\": \"patron\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "0"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, no-store, max-age=0, must-revalidate"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "Expires",
+							"value": "0"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 02 Dec 2024 13:40:47 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"accessToken\": \"eyJraWQiOiJtTmtPZnRuZW14WDFEZzRTdVF0c2E2X3NiaHNYMEJWcXFjRU1rN0JsUGFrIiwiYWxnIjoiUlM1MTIifQ.eyJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjgwODAvZnJvbnQtZW5kIiwic3ViIjoiMiIsInNjb3BlIjpbIlBBVFJPTiJdLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwODAvIiwibmFtZSI6InBhdHJvbiIsImV4cCI6MTczMzE0Njg4MywiaWF0IjoxNzMzMTQ2ODQ3LCJ1c2VybmFtZSI6InBhdHJvbiJ9.qu8eilHeZDHrVuBD8wU17wLdqe40YuEVw_QFniUNUnxUVgflX_WxtpgwTQIsog1rHixxxi2ViwUOqUO0mHqLuHRgAsZSeGtto9yqE2B_NzNdZtLTcX1gwC2zspYsvs_llJaNIEByJrJDNr3KxXL_KCBpZVgKQWZ1LAViMHLPNn2drh9XIjqz-2E2oO2b5i2nDM25KHyORs7Ysej5EhW5guCZD8ok2RpCQ--cAW_nOInZ-udQ3phbVwVMqC601Kuw8nfI4AiZALmhF5dvViEFGqrbbGfwcxRdLVlpLduEx7o8Smuf_oUPxlymkB2aX9HGeN6EfR_vMVqAvMcavIGQaA\",\n    \"refreshToken\": \"eyJraWQiOiJYY0FvWnVjanU2cHhnT2dUdGdFVlAyM2RnbmhkYjIwNjRydVdQdF9UcUM0IiwiYWxnIjoiUlM1MTIifQ.eyJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjgwODAvZnJvbnQtZW5kIiwic3ViIjoiMiIsIm5iZiI6MTczMzE0Njg4Mywic2NvcGUiOlsiUEFUUk9OIl0sImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODA4MC8iLCJuYW1lIjoicGF0cm9uIiwiZXhwIjoxNzMzMTQ2OTE5LCJpYXQiOjE3MzMxNDY4ODMsInVzZXJuYW1lIjoicGF0cm9uIn0.S8PNrfyOCzFHXMxCGp16WPy-f02j8YhYO6E7Qyc45ge4JMmNx9tagJ6tsXK1u5ZrolGOtDNUUNaZo32dL7LpnqOdXl-nSgfWmfGOQq9f3d8-4PR5h6x4FWMsDGcR4rilo46xKdiy_O9jW9bZvrO-6xIJkkz5h7CIhaht2zH2VNtVJ5V-P3AyXOcu53evf1e3Srefm1W1YtUknTkFuodK4A232xmOxd22B01PelG7TYZ97QrNN45Dn3MxuhGvh1f1Ij3hsAtf0Qb-kYvQdZYuryQs16Eo6LGKCkMQ8w0UaTO23uNoFHyyNzq_KXECCz3IxmtLZrxHdtIxhsQ6hQkuVw\",\n    \"tokenType\": \"Bearer\",\n    \"expires\": 36000\n}"
+				}
+			]
+		}
+	]
+}

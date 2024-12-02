@@ -15,6 +15,16 @@
     ./gradlew bootRun 
 ```
 
+> **🗒️** Test cases needs **docker desktop** because it depends on test container.
+
+
+## API docs
+
+- Postman collection [LibraryManagementAPI.postman_collection.json](LibraryManagementAPI.postman_collection.json) with ready to use request body.
+
+[//]: # (- SpringDoc)
+
+
 ### Reference
 
 - simple JSON Web Key generator [https://mkjwk.org/](https://mkjwk.org/)
